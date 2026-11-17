@@ -109,9 +109,6 @@
   .week-day .rain-dot{font-size:12px; font-weight:900}
   .week-day .ev-line{display:inline-block; margin-top:3px; font-size:12px; font-weight:900; color:var(--sky-dark); background:var(--sky-soft); border-radius:999px; padding:2px 7px; line-height:1.2}
   .week-day[aria-pressed="true"] .ev-line{background:#fff; color:var(--sky-dark)}
-  .legend{flex:0 0 auto; display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; padding-top:10px; border-top:2px solid var(--line)}
-  .legend span{display:inline-flex; align-items:center; gap:6px; background:var(--sky-soft); border-radius:999px; padding:5px 9px; font-size:13px; font-weight:900}
-  .legend svg{width:24px; height:24px}
   .source{flex:0 0 auto; margin:8px 4px 0; font-size:12px; line-height:1.35; color:var(--ink-soft); font-weight:700}
 
   /* Short landscape (1366×768) tightening */
@@ -165,7 +162,7 @@
     .week-day .ww{font-size:11.5px; line-height:1.15; min-width:0; overflow:hidden}
     .week-day .rain-dot{font-size:11px}
     .week-day .wt b{font-size:19px} .week-day .wt span{font-size:11px}
-    .legend,.source,.week .hint{display:none}
+    .source,.week .hint{display:none}
     .note-box{display:none}
     .events-box{margin-top:6px; padding:6px 7px}
     .events-title{font-size:11px} .events-title .place{display:none}
@@ -247,12 +244,6 @@
       <h2>The whole week</h2>
       <p class="hint">Tap a day to see it big — weather + what's on. Big number = daytime warmest.</p>
       <div class="week-list" id="weekList" role="group" aria-label="Choose a day"></div>
-      <div class="legend" aria-label="What the pictures mean">
-        <span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="20" fill="#f5a800"/><g stroke="#f5a800" stroke-width="7" stroke-linecap="round"><line x1="50" y1="8" x2="50" y2="20"/><line x1="50" y1="80" x2="50" y2="92"/><line x1="8" y1="50" x2="20" y2="50"/><line x1="80" y1="50" x2="92" y2="50"/></g></svg> Sun</span>
-        <span><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="36" cy="34" r="15" fill="#f5a800"/><ellipse cx="58" cy="68" rx="30" ry="16" fill="#8fc3e8"/><ellipse cx="42" cy="74" rx="26" ry="12" fill="#d9efff"/></svg> Sun + cloud</span>
-        <span><svg viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="38" cy="58" rx="26" ry="16" fill="#8fc3e8"/><ellipse cx="62" cy="50" rx="28" ry="20" fill="#d9efff"/></svg> Clouds</span>
-        <span><svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12 C50 12 26 44 26 62 a24 24 0 0 0 48 0 C74 44 50 12 50 12Z" fill="#1b7ec2"/></svg> Rain</span>
-      </div>
       <p class="source">Forecast: National Weather Service (Buffalo) + Weather.com • Checked Sun, Nov 15, 2026 • What's on: family, school &amp; dojang calendars, week of Nov 16–22 • This page reloads itself every hour.</p>
     </aside>
   </main>
@@ -284,14 +275,30 @@ var DAYS = [
   { day:"Monday", short:"Mon", date:"November 16", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky. Clouds in the morning, more sun later.", high:47, low:37, feel:"Chilly. The coldest day this week.", rain:"No rain.", rainIcon:"no", wear:"Warm coat. Hat in the morning.", wearIcon:"coat", events:[{time:"5–6pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"School day. Skylar TKD at 5 o'clock, then Black Belt TKD at 7 o'clock.", tag:"" },
   { day:"Tuesday", short:"Tue", date:"November 17", icon:"sunny", words:"Sunny", explain:"The sun is out most of the day. Very few clouds.", high:53, low:38, feel:"Cool. It will feel colder because of the wind.", rain:"No rain.", rainIcon:"no", wear:"Warm coat.", wearIcon:"coat", events:[{time:"12–1:30pm", name:"PDA Parenting Workshop — Live on Zoom", type:"school"},{time:"5–6pm", name:"Private Lesson — Sebastian M.", type:"dojang"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Windy day. Hold on to your hat! PDA Parenting Workshop on Zoom at 12, private lesson at 5, DELTA at 6, Black Belt TKD at 7.", tag:"TODAY" },
   { day:"Wednesday", short:"Wed", date:"November 18", icon:"sunny", words:"Sunny", explain:"The sun is out most of the day. A bright, clear day.", high:56, low:41, feel:"Cool and nice.", rain:"No rain.", rainIcon:"no", wear:"Coat or thick jacket.", wearIcon:"coat", events:[{time:"4:30pm", name:"Appointment — J", type:"appt"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"7–8pm", name:"TKD Instructor Class", type:"dojang"},{time:"8–9pm", name:"Black Belt TKD", type:"dojang"}], note:"Appointment — J at 4:30. Skylar TKD at 6 o'clock, then Instructor Class and Black Belt TKD.", tag:"" },
-  { day:"Thursday", short:"Thu", date:"November 19", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky again.", high:58, low:41, feel:"A little warmer.", rain:"No rain.", rainIcon:"no", wear:"Jacket.", wearIcon:"jacket", events:[{time:"8:10am", name:"Appointment — SC", type:"appt"},{time:"5–6pm", name:"TKD Family Class", type:"dojang"},{time:"5:30–7:30pm", name:"Digital Dangers parent presentation — Cleveland Hill MS/HS Auditorium", type:"school"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Skills and Drills", type:"dojang"}], note:"Appointment — SC at 8:10 in the morning. Family class at 5, school talk at 5:30, DELTA at 6, Skills and Drills at 7.", tag:"" },
-  { day:"Friday", short:"Fri", date:"November 20", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky.", high:57, low:47, feel:"Mild. The morning is not as cold.", rain:"No rain.", rainIcon:"no", wear:"Jacket.", wearIcon:"jacket", events:[{time:"All day", name:"Picture Retake Day — Cleveland Hill Elementary", type:"school"},{time:"Due today", name:"Dan belt private lessons due", type:"dojang", cls:"due"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"}], note:"Picture Retake Day at school! Dan belt private lessons are due today. Skylar TKD at 6 o'clock.", tag:"" },
+  { day:"Thursday", short:"Thu", date:"November 19", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky again.", high:58, low:41, feel:"A little warmer.", rain:"No rain.", rainIcon:"no", wear:"Jacket.", wearIcon:"jacket", events:[{time:"8:10am", name:"Appointment — SC", type:"appt"},{time:"5–6pm", name:"TKD Family Class", type:"dojang"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Skills and Drills", type:"dojang"}], note:"Appointment — SC at 8:10 in the morning. Family class at 5, DELTA at 6, Skills and Drills at 7.", tag:"" },
+  { day:"Friday", short:"Fri", date:"November 20", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky.", high:57, low:47, feel:"Mild. The morning is not as cold.", rain:"No rain.", rainIcon:"no", wear:"Jacket.", wearIcon:"jacket", events:[{time:"Due today", name:"Dan belt private lessons due", type:"dojang", cls:"due"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"}], note:"Dan belt private lessons are due today. Skylar TKD at 6 o'clock.", tag:"" },
   { day:"Saturday", short:"Sat", date:"November 21", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky.", high:62, low:42, feel:"The warmest day this week!", rain:"No rain.", rainIcon:"no", wear:"Light jacket.", wearIcon:"jacket", events:[{time:"8:55–10:55am", name:"Tiger Instruction", type:"dojang"},{time:"11am–5pm", name:"Fall Fusion Tournament", type:"dojang"}], note:"Big dojang day! Tiger Instruction in the morning, then the Fall Fusion Tournament from 11 to 5.", tag:"WARMEST" },
   { day:"Sunday", short:"Sun", date:"November 22", icon:"cloudyRain", words:"Clouds + maybe rain", explain:"Clouds cover most of the sky. A little rain may fall.", high:59, low:48, feel:"Mild, but cloudy.", rain:"Maybe a little rain.", rainIcon:"maybe", wear:"Jacket. Take an umbrella, just in case.", wearIcon:"umbrella", events:[{time:"9:45–11:45am", name:"Demo Team Practice", type:"dojang"},{time:"12:30–2pm", name:"Black Belt Test Practice #1 — Dillon helping", type:"dojang"}], note:"Sunday is the only day rain may come. Black Belt Test Practice at 12:30 — Dillon is helping.", tag:"" }
 ];
 
-/* One day at a time — opens on TODAY, Tue Nov 17. */
-var current = 1;
+/* One day at a time — today always comes first, then the following
+   days in order. Days already past are left out of the list entirely.
+   Worked out from the viewer's own date every time the page loads, so
+   yesterday drops off by itself each morning with no rebuild. */
+var MONTHS = { January:0, February:1, March:2, April:3, May:4, June:5, July:6, August:7, September:8, October:9, November:10, December:11 };
+function todayIndex(){
+  var now = new Date();
+  for(var i=0;i<DAYS.length;i++){
+    var parts = DAYS[i].date.split(" ");
+    if(MONTHS[parts[0]] === now.getMonth() && parseInt(parts[1],10) === now.getDate()) return i;
+  }
+  return -1; /* today isn't in this week's list */
+}
+var FOUND = todayIndex();
+var TODAY = FOUND >= 0 ? FOUND : 0; /* no match — start at the first day, no TODAY tag */
+var ORDER = [];
+for(var o=TODAY;o<DAYS.length;o++){ ORDER.push(o); }
+var current = TODAY;
 function wearSVG(k){ return k==="coat"?COAT:(k==="umbrella"?UMBRELLA:JACKET); }
 function rainSVG(k){ return k==="maybe"?MAYBEDROP:NODROP; }
 function catIcons(d){
@@ -302,7 +309,8 @@ function catIcons(d){
 
 function renderWeek(){
   var html="";
-  for(var i=0;i<DAYS.length;i++){
+  for(var k=0;k<ORDER.length;k++){
+    var i=ORDER[k];
     var d=DAYS[i];
     html+='<button type="button" class="week-day" data-i="'+i+'" aria-pressed="'+(i===current)+'">'
       +'<span class="wd">'+d.short+'<small>'+d.date.replace("November ","Nov ")+'</small></span>'
@@ -319,7 +327,7 @@ function selectDay(i){
   current=i; var d=DAYS[i];
   document.getElementById("bigDayName").textContent=d.day;
   document.getElementById("bigDayDate").textContent=d.date+" • Buffalo, NY";
-  document.getElementById("bigTag").textContent=d.tag||"";
+  document.getElementById("bigTag").textContent = (FOUND>=0 && i===TODAY) ? "TODAY" : (d.tag==="TODAY" ? "" : (d.tag||""));
   document.getElementById("bigIcon").innerHTML=ICONS[d.icon];
   document.getElementById("bigWords").textContent=d.words;
   document.getElementById("bigExplain").textContent=d.explain;
@@ -340,21 +348,24 @@ function selectDay(i){
   document.getElementById("bigEvents").innerHTML=evHtml;
   document.getElementById("bigNote").textContent=d.note;
   var btns=document.querySelectorAll(".week-day");
-  for(var j=0;j<btns.length;j++){ btns[j].setAttribute("aria-pressed", j===i?"true":"false"); }
-  /* Prev / Next state */
+  for(var j=0;j<btns.length;j++){ btns[j].setAttribute("aria-pressed", btns[j].getAttribute("data-i")===String(i)?"true":"false"); }
+  /* Prev / Next move through the list as shown — today first, then the
+     following days; past days are not in the list at all. */
+  var pos = ORDER.indexOf(i);
   var prev=document.getElementById("prevBtn"), next=document.getElementById("nextBtn");
-  prev.disabled = (i===0); next.disabled = (i===DAYS.length-1);
-  document.getElementById("prevLabel").textContent = i>0 ? DAYS[i-1].day+" • "+DAYS[i-1].date.replace("November ","Nov ") : "Start of the week";
-  document.getElementById("nextLabel").textContent = i<DAYS.length-1 ? DAYS[i+1].day+" • "+DAYS[i+1].date.replace("November ","Nov ") : "End of the week";
-  document.getElementById("navCount").innerHTML = "Day "+(i+1)+" of 7<br>"+d.short+" "+d.date.replace("November ","Nov ");
+  prev.disabled = (pos===0); next.disabled = (pos===ORDER.length-1);
+  document.getElementById("prevLabel").textContent = pos>0 ? DAYS[ORDER[pos-1]].day+" • "+DAYS[ORDER[pos-1]].date.replace("November ","Nov ") : "Start of the week";
+  document.getElementById("nextLabel").textContent = pos<ORDER.length-1 ? DAYS[ORDER[pos+1]].day+" • "+DAYS[ORDER[pos+1]].date.replace("November ","Nov ") : "End of the week";
+  document.getElementById("navCount").innerHTML = "Day "+(pos+1)+" of "+ORDER.length+"<br>"+d.short+" "+d.date.replace("November ","Nov ");
 }
-document.getElementById("prevBtn").addEventListener("click",function(){ selectDay(current-1); });
-document.getElementById("nextBtn").addEventListener("click",function(){ selectDay(current+1); });
+document.getElementById("prevBtn").addEventListener("click",function(){ var p=ORDER.indexOf(current); if(p>0) selectDay(ORDER[p-1]); });
+document.getElementById("nextBtn").addEventListener("click",function(){ var p=ORDER.indexOf(current); if(p<ORDER.length-1) selectDay(ORDER[p+1]); });
 document.addEventListener("keydown",function(e){
-  if(e.key==="ArrowLeft") selectDay(current-1);
-  if(e.key==="ArrowRight") selectDay(current+1);
+  var p=ORDER.indexOf(current);
+  if(e.key==="ArrowLeft" && p>0) selectDay(ORDER[p-1]);
+  if(e.key==="ArrowRight" && p<ORDER.length-1) selectDay(ORDER[p+1]);
 });
-renderWeek(); selectDay(1);
+renderWeek(); selectDay(TODAY);
 </script>
 </body>
 </html>
