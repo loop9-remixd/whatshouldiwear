@@ -64,6 +64,14 @@
   .answer .q{font-size:13px; font-weight:900; color:var(--ink-soft); margin:0; letter-spacing:.02em; text-transform:uppercase}
   .answer .a{font-size:clamp(16px,1.3vw,20px); font-weight:900; margin:1px 0 0; line-height:1.2}
 
+  /* School letter day + special — picture first */
+  .school-box{display:flex; align-items:center; gap:14px; background:#fffbe8; border:3px solid var(--sun); border-radius:16px; padding:7px 14px; margin-bottom:10px; flex:0 0 auto}
+  .school-box[hidden]{display:none}
+  .school-box .sp-icons{display:flex; gap:7px; align-items:center; flex:0 0 auto}
+  .school-box .sp-icons svg{width:48px; height:48px; flex:0 0 auto}
+  .school-box .school-q{font-size:12px; font-weight:900; color:var(--ink-soft); margin:0; letter-spacing:.03em; text-transform:uppercase}
+  .school-box .school-a{font-size:clamp(19px,1.6vw,25px); font-weight:900; margin:1px 0 0; line-height:1.15}
+
   /* What's on today */
   .events-box{margin-top:10px; background:var(--sky-soft); border:2px solid var(--line); border-radius:16px; padding:8px 10px 9px; flex:1 1 auto; min-height:0; display:flex; flex-direction:column}
   .events-title{margin:0; font-size:14px; font-weight:900; letter-spacing:.03em; text-transform:uppercase; color:var(--sky-dark); display:flex; align-items:center; gap:7px}
@@ -121,6 +129,8 @@
     .event-row{min-height:32px; padding:4px 8px 4px 5px}
     .note-box{padding:6px 12px; margin-top:7px}
     .answer{min-height:54px; padding:6px 10px}
+    .school-box{padding:5px 12px; margin-bottom:8px}
+    .school-box .sp-icons svg{width:40px; height:40px}
     .day-nav{margin-top:8px}
     .nav-btn{min-height:50px}
     .temps{margin-top:8px}
@@ -151,6 +161,10 @@
     .temp-box .num{font-size:28px}
     .answers{gap:6px}
     .answer{min-height:48px; padding:6px 8px; gap:8px}
+    .school-box{gap:9px; padding:5px 9px; margin-bottom:6px; border-width:2px}
+    .school-box .sp-icons svg{width:34px; height:34px}
+    .school-box .school-q{font-size:10px}
+    .school-box .school-a{font-size:16px}
     .answer svg{width:34px; height:34px; flex-basis:34px}
     .answer .a{font-size:15px}
     .week{padding:8px}
@@ -186,7 +200,7 @@
   <header>
     <div class="title-block">
       <h1 id="page-title">My Weather This Week</h1>
-      <p class="where">Buffalo, New York — Mon Nov 16 to Sun Nov 22</p>
+      <p class="where">Buffalo, New York — Mon Nov 16 to Thu Nov 26</p>
     </div>
     <div class="facts" aria-label="Big facts for the week">
       <div class="fact"><i aria-hidden="true">✓</i> No snow this week</div>
@@ -220,6 +234,11 @@
         </div>
       </div>
 
+      <div class="school-box" id="schoolBox" hidden>
+        <div class="sp-icons" id="schoolIcons" aria-hidden="true"></div>
+        <div><p class="school-q">School</p><p class="school-a" id="schoolText"></p></div>
+      </div>
+
       <div class="answers">
         <div class="answer"><div id="rainIcon"></div><div><p class="q">Will it rain?</p><p class="a" id="bigRain"></p></div></div>
         <div class="answer"><div id="wearIcon"></div><div><p class="q">What do I wear?</p><p class="a" id="bigWear"></p></div></div>
@@ -244,7 +263,7 @@
       <h2>The whole week</h2>
       <p class="hint">Tap a day to see it big — weather + what's on. Big number = daytime warmest.</p>
       <div class="week-list" id="weekList" role="group" aria-label="Choose a day"></div>
-      <p class="source">Forecast: National Weather Service (Buffalo) + Weather.com • Checked Sun, Nov 15, 2026 • What's on: family, school &amp; dojang calendars, week of Nov 16–22 • This page reloads itself every hour.</p>
+      <p class="source">Forecast: National Weather Service (Buffalo) + Weather.com • Checked Tue, Nov 17, 2026 • What's on: family, school &amp; dojang calendars, Nov 16–26 • This page reloads itself every hour.</p>
     </aside>
   </main>
 </div>
@@ -268,6 +287,22 @@ var UMBRELLA = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 56 a3
 var NODROP = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10 C50 10 24 44 24 63 a26 26 0 0 0 52 0 C76 44 50 10 50 10Z" fill="#b9d9ef"/><line x1="22" y1="22" x2="78" y2="82" stroke="#c0392b" stroke-width="8" stroke-linecap="round"/></svg>';
 var MAYBEDROP = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 10 C50 10 24 44 24 63 a26 26 0 0 0 52 0 C76 44 50 10 50 10Z" fill="#1b7ec2"/><ellipse cx="41" cy="65" rx="7" ry="10" fill="#6fc3ff"/></svg>';
 
+/* Skylar's specials — one big simple picture per special (from her
+   school Specials Schedule photo). Day B has two: P.E. and Computers. */
+var ART_ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M50 12 C26 12 12 29 12 50 C12 71 27 88 46 88 L56 88 C63 88 66 83 66 78 C66 71 60 69 60 62 C60 56 65 53 72 53 L78 53 C88 53 92 46 92 37 C92 22 73 12 50 12Z" fill="#e8a33d"/><circle cx="32" cy="34" r="8" fill="#c0392b"/><circle cx="53" cy="27" r="8" fill="#1b7ec2"/><circle cx="71" cy="37" r="7" fill="#137044"/><circle cx="29" cy="55" r="7" fill="#f5a800"/><circle cx="42" cy="73" r="7" fill="#fffbe8"/></svg>';
+var SHOE_ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M14 58 L14 44 C14 40 18 38 22 40 L44 52 C52 56 60 58 72 58 L84 58 C89 58 92 61 92 66 L92 72 L14 72Z" fill="#1b7ec2"/><path d="M14 72 L92 72 L92 79 C92 82 90 84 86 84 L20 84 C16 84 14 82 14 79Z" fill="#ffffff" stroke="#17324a" stroke-width="3"/><path d="M29 47 L39 54 M37 43 L47 50" stroke="#ffffff" stroke-width="4" stroke-linecap="round"/></svg>';
+var COMPUTER_ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="14" y="18" width="72" height="50" rx="6" fill="#17324a"/><rect x="21" y="25" width="58" height="36" rx="3" fill="#6fc3ff"/><rect x="44" y="68" width="12" height="10" fill="#17324a"/><rect x="30" y="80" width="40" height="6" rx="3" fill="#17324a"/></svg>';
+var LIBRARY_ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><rect x="14" y="10" width="72" height="80" rx="4" fill="#8a5a2b"/><rect x="20" y="16" width="60" height="30" fill="#5d3c1a"/><rect x="20" y="52" width="60" height="30" fill="#5d3c1a"/><rect x="24" y="20" width="8" height="26" fill="#c0392b"/><rect x="34" y="20" width="8" height="26" fill="#1b7ec2"/><rect x="44" y="22" width="8" height="24" fill="#f5a800"/><rect x="54" y="20" width="8" height="26" fill="#137044"/><rect x="64" y="22" width="8" height="24" fill="#e8a33d"/><rect x="28" y="56" width="8" height="26" fill="#1b7ec2"/><rect x="38" y="58" width="8" height="24" fill="#c0392b"/><rect x="48" y="56" width="8" height="26" fill="#137044"/><rect x="58" y="58" width="8" height="24" fill="#f5a800"/></svg>';
+var MUSIC_ICON = '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="M38 66 L38 26 L76 18 L76 58" fill="none" stroke="#0b4f84" stroke-width="6" stroke-linejoin="round"/><path d="M38 26 L76 18 L76 31 L38 39Z" fill="#0b4f84"/><ellipse cx="28" cy="69" rx="11" ry="8" fill="#b94700" transform="rotate(-15 28 69)"/><ellipse cx="66" cy="61" rx="11" ry="8" fill="#b94700" transform="rotate(-15 66 61)"/></svg>';
+var SPECIALS = {
+  A:{ name:"Art", icons:ART_ICON },
+  B:{ name:"P.E. + Computers", icons:SHOE_ICON + COMPUTER_ICON },
+  C:{ name:"Library", icons:LIBRARY_ICON },
+  D:{ name:"P.E.", icons:SHOE_ICON },
+  E:{ name:"Music", icons:MUSIC_ICON },
+  F:{ name:"P.E.", icons:SHOE_ICON }
+};
+
 var CAT_LABEL = { dojang:"🥋 Dojang", school:"🎒 School", appt:"📅 Appointment" };
 var CAT_ICON = { dojang:"🥋", school:"🎒", appt:"📅" };
 
@@ -278,13 +313,19 @@ var DAYS = [
   { day:"Thursday", short:"Thu", date:"November 19", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky again.", high:58, low:41, feel:"A little warmer.", rain:"No rain.", rainIcon:"no", wear:"Jacket.", wearIcon:"jacket", events:[{time:"8:10am", name:"Appointment — SC", type:"appt"},{time:"5–6pm", name:"TKD Family Class", type:"dojang"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Skills and Drills", type:"dojang"}], note:"Appointment — SC at 8:10 in the morning. Family class at 5, DELTA at 6, Skills and Drills at 7.", tag:"" },
   { day:"Friday", short:"Fri", date:"November 20", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky.", high:57, low:47, feel:"Mild. The morning is not as cold.", rain:"No rain.", rainIcon:"no", wear:"Jacket.", wearIcon:"jacket", events:[{time:"Due today", name:"Dan belt private lessons due", type:"dojang", cls:"due"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"}], note:"Dan belt private lessons are due today. Skylar TKD at 6 o'clock.", tag:"" },
   { day:"Saturday", short:"Sat", date:"November 21", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky.", high:62, low:42, feel:"The warmest day this week!", rain:"No rain.", rainIcon:"no", wear:"Light jacket.", wearIcon:"jacket", events:[{time:"8:55–10:55am", name:"Tiger Instruction", type:"dojang"},{time:"11am–5pm", name:"Fall Fusion Tournament", type:"dojang"}], note:"Big dojang day! Tiger Instruction in the morning, then the Fall Fusion Tournament from 11 to 5.", tag:"WARMEST" },
-  { day:"Sunday", short:"Sun", date:"November 22", icon:"cloudyRain", words:"Clouds + maybe rain", explain:"Clouds cover most of the sky. A little rain may fall.", high:59, low:48, feel:"Mild, but cloudy.", rain:"Maybe a little rain.", rainIcon:"maybe", wear:"Jacket. Take an umbrella, just in case.", wearIcon:"umbrella", events:[{time:"9:45–11:45am", name:"Demo Team Practice", type:"dojang"},{time:"12:30–2pm", name:"Black Belt Test Practice #1 — Dillon helping", type:"dojang"}], note:"Sunday is the only day rain may come. Black Belt Test Practice at 12:30 — Dillon is helping.", tag:"" }
+  { day:"Sunday", short:"Sun", date:"November 22", icon:"cloudyRain", words:"Clouds + maybe rain", explain:"Clouds cover most of the sky. A little rain may fall.", high:59, low:48, feel:"Mild, but cloudy.", rain:"Maybe a little rain.", rainIcon:"maybe", wear:"Jacket. Take an umbrella, just in case.", wearIcon:"umbrella", events:[{time:"9:45–11:45am", name:"Demo Team Practice", type:"dojang"},{time:"12:30–2pm", name:"Black Belt Test Practice #1 — Dillon helping", type:"dojang"}], note:"A little rain may come today. Black Belt Test Practice at 12:30 — Dillon is helping.", tag:"" },
+  { day:"Monday", short:"Mon", date:"November 23", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky. It feels much colder today.", high:44, low:32, feel:"Much colder. A real winter feel.", rain:"Probably no rain.", rainIcon:"no", wear:"Warm coat. Hat and gloves.", wearIcon:"coat", events:[{time:"5–6pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Skylar TKD at 5 o'clock, then Black Belt TKD at 7 o'clock. It is cold — bundle up!", tag:"" },
+  { day:"Tuesday", short:"Tue", date:"November 24", icon:"partly", words:"Sun + clouds", explain:"The sun and clouds share the sky. It is the coldest day.", high:37, low:27, feel:"Very cold! The coldest day of all.", rain:"No rain.", rainIcon:"no", wear:"Warm coat. Hat and gloves.", wearIcon:"coat", events:[{time:"10–11am", name:"Appointment — SCM", type:"appt"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Appointment — SCM at 10 in the morning. DELTA at 6, Black Belt TKD at 7. Brrr — dress warm!", tag:"" },
+  { day:"Wednesday", short:"Wed", date:"November 25", icon:"cloudy", words:"Cloudy", explain:"Clouds cover most of the sky all day.", high:43, low:34, feel:"Cold and cloudy.", rain:"Maybe a little rain at night.", rainIcon:"maybe", wear:"Warm coat.", wearIcon:"coat", events:[{time:"9:20am", name:"Parent Teacher Conference", type:"school"},{time:"11am–12pm", name:"Appointment — J", type:"appt"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"7–8pm", name:"TKD Instructor Class", type:"dojang"},{time:"8–9pm", name:"Black Belt TKD", type:"dojang"}], note:"Parent Teacher Conference in the morning. Appointment — J at 11. Skylar TKD at 6 o'clock, then Instructor Class and Black Belt TKD.", tag:"" },
+  { day:"Thursday", short:"Thu", date:"November 26", icon:"cloudyRain", words:"Clouds + morning rain", explain:"Clouds cover the sky. A little rain may fall in the morning.", high:44, low:36, feel:"Cold, with rain in the morning.", rain:"Maybe a little rain in the morning.", rainIcon:"maybe", wear:"Warm coat. Take an umbrella.", wearIcon:"umbrella", events:[], note:"Thanksgiving Day! No TKD today — the dojang is closed. A little rain may fall in the morning.", tag:"THANKSGIVING" }
 ];
 
-/* One day at a time — today always comes first, then the following
-   days in order. Days already past are left out of the list entirely.
-   Worked out from the viewer's own date every time the page loads, so
-   yesterday drops off by itself each morning with no rebuild. */
+/* One day at a time — the page always shows exactly 5 days: today
+   plus the next 4 days, in order. Days already past are left out of
+   the list entirely. Worked out from the viewer's own date every
+   time the page loads, so yesterday drops off by itself each morning
+   with no rebuild. The DAYS data runs past the end of the week so
+   the 5-day window is still full on Fri, Sat and Sun. */
 var MONTHS = { January:0, February:1, March:2, April:3, May:4, June:5, July:6, August:7, September:8, October:9, November:10, December:11 };
 function todayIndex(){
   var now = new Date();
@@ -297,8 +338,62 @@ function todayIndex(){
 var FOUND = todayIndex();
 var TODAY = FOUND >= 0 ? FOUND : 0; /* no match — start at the first day, no TODAY tag */
 var ORDER = [];
-for(var o=TODAY;o<DAYS.length;o++){ ORDER.push(o); }
+for(var o=TODAY;o<DAYS.length && ORDER.length<5;o++){ ORDER.push(o); }
 var current = TODAY;
+
+/* ===== Skylar's school letter-day rule =====
+   Anchor: Tue Nov 17, 2026 = Day A. The letter advances by one
+   (A→B→C→D→E→F→A…) on each SCHOOL day only.
+   - Weekends are not school days and never advance the letter.
+   - Planned holidays / closures do NOT advance the letter
+     (e.g. Tue A, Wed holiday, Thu B — the letter holds).
+   - Snow days DO advance the letter — that day's letter is
+     skipped (e.g. Tue A, Wed snow day, Thu C).
+   When a closure happens, add its date ("Month D", as in DAYS)
+   to PLANNED_HOLIDAYS or SNOW_DAYS below and future days stay
+   right. What the rule gives this page: Nov 16 F (P.E.) •
+   Nov 17 A (Art) • Nov 18 B (P.E. + Computers) • Nov 19 C
+   (Library) • Nov 20 D (P.E.) • Nov 21–22 no school •
+   Nov 23 E (Music) • Nov 24 F (P.E.) • Nov 25 A (Art) •
+   Nov 26 Thanksgiving — planned holiday, no school, and the
+   letter does not advance. */
+var LETTER_ORDER = ["A","B","C","D","E","F"];
+var PLANNED_HOLIDAYS = { "November 26": true }; /* Thanksgiving */
+var SNOW_DAYS = { }; /* none yet — add "Month D": true when one happens */
+function dayDateObj(dateStr){
+  var p = dateStr.split(" ");
+  return new Date(2026, MONTHS[p[0]], parseInt(p[1],10));
+}
+function dateKeyOf(dt){
+  for(var m in MONTHS){ if(MONTHS[m] === dt.getMonth()) return m + " " + dt.getDate(); }
+  return "";
+}
+function letterStep(dt){
+  var dow = dt.getDay();
+  if(dow === 0 || dow === 6) return 0; /* weekend — not a school day */
+  if(PLANNED_HOLIDAYS[dateKeyOf(dt)]) return 0; /* planned holiday — letter holds */
+  return 1; /* a regular school day — and a snow day — advances the letter */
+}
+function schoolForDay(d){
+  var target = dayDateObj(d.date);
+  var dow = target.getDay();
+  if(dow === 0 || dow === 6) return null; /* weekend — no school */
+  if(PLANNED_HOLIDAYS[d.date]) return null; /* planned holiday — no school */
+  if(SNOW_DAYS[d.date]) return null; /* snow day — no school; its letter is skipped */
+  var anchor = dayDateObj("November 17"); /* Tue Nov 17, 2026 = Day A */
+  var idx = 0; /* A */
+  var step = target.getTime() > anchor.getTime() ? 1 : -1;
+  var cur = new Date(anchor.getTime());
+  while(cur.getTime() !== target.getTime()){
+    cur.setDate(cur.getDate() + step);
+    idx += step * letterStep(cur);
+  }
+  idx = ((idx % 6) + 6) % 6;
+  var letter = LETTER_ORDER[idx];
+  var sp = SPECIALS[letter];
+  return { letter:letter, name:sp.name, icons:sp.icons };
+}
+
 function wearSVG(k){ return k==="coat"?COAT:(k==="umbrella"?UMBRELLA:JACKET); }
 function rainSVG(k){ return k==="maybe"?MAYBEDROP:NODROP; }
 function catIcons(d){
@@ -338,6 +433,13 @@ function selectDay(i){
   document.getElementById("rainIcon").innerHTML=rainSVG(d.rainIcon);
   document.getElementById("bigWear").textContent=d.wear;
   document.getElementById("wearIcon").innerHTML=wearSVG(d.wearIcon);
+  var sch = schoolForDay(d);
+  var sBox = document.getElementById("schoolBox");
+  if(sch){
+    sBox.hidden = false;
+    document.getElementById("schoolIcons").innerHTML = sch.icons;
+    document.getElementById("schoolText").textContent = "Day " + sch.letter + " — " + sch.name;
+  } else { sBox.hidden = true; }
   var evHtml="";
   if(d.events && d.events.length){
     for(var e=0;e<d.events.length;e++){
