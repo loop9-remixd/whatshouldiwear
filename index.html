@@ -42,13 +42,17 @@
   .stars-title{margin:0; font-size:clamp(21px,1.7vw,27px); font-weight:900; line-height:1.05; white-space:nowrap}
   .stars-rule{margin:3px 0 0; font-size:clamp(13px,1.05vw,15.5px); font-weight:800; color:var(--ink-soft); line-height:1.25; max-width:30em}
   .stars-row{flex:1 1 auto; display:flex; justify-content:space-evenly; gap:4px; min-width:0}
-  .star-slot{display:flex; flex-direction:column; align-items:center; gap:1px; padding:2px 8px 1px; border-radius:14px; border:3px solid transparent}
-  .star-slot svg{width:clamp(36px,4.2vh,48px); height:clamp(36px,4.2vh,48px)}
+  .star-slot{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; padding:8px 10px 6px; border-radius:16px; border:3px solid transparent; background:transparent; color:inherit; font:inherit; min-width:68px; min-height:68px; cursor:pointer; -webkit-tap-highlight-color:transparent; touch-action:manipulation; transition:transform .08s ease, background .15s ease, border-color .15s ease}
+  .star-slot:hover{background:#fffbe8}
+  .star-slot:active{transform:scale(.94)}
+  .star-slot.is-earned{background:#fff6cf}
+  .star-slot svg{width:clamp(38px,4.4vh,50px); height:clamp(38px,4.4vh,50px); pointer-events:none; flex:0 0 auto}
   .star-slot .sd{font-size:clamp(13.5px,1.1vw,17px); font-weight:900; line-height:1.1; white-space:nowrap}
   .star-slot .sd small{color:var(--ink-soft); font-weight:800}
   .star-slot.is-today{border-color:var(--sky); background:var(--sky-soft)}
   .star-slot.is-today .sd{color:var(--sky-dark)}
   .star-slot.is-today .sd small{color:var(--sky-dark)}
+  .star-slot.is-today.is-earned{background:#ffe9a8}
   .stars-total{flex:0 0 auto; text-align:center; background:var(--sun-soft); border-radius:16px; padding:6px 12px}
   .stars-total .big{margin:0; font-size:clamp(28px,2.4vw,38px); font-weight:900; line-height:1; white-space:nowrap}
   .stars-total .goal{margin:3px 0 0; font-size:clamp(13.5px,1.1vw,16px); font-weight:900; color:var(--ink-soft); white-space:nowrap}
@@ -195,8 +199,8 @@
     .stars-bar{padding:3px 12px; gap:10px}
     .stars-title{font-size:22px}
     .stars-rule{font-size:13px; line-height:1.2; margin-top:2px}
-    .star-slot{padding:1px 6px 0}
-    .star-slot svg{width:32px; height:32px}
+    .star-slot{padding:6px 6px 4px; min-width:60px; min-height:60px}
+    .star-slot svg{width:34px; height:34px}
     .star-slot .sd{font-size:13px}
     .stars-total{padding:4px 10px}
     .stars-total .big{font-size:25px}
@@ -265,8 +269,8 @@
     .stars-total .big{font-size:26px}
     .stars-total .goal{font-size:13.5px}
     .stars-row{order:3; flex:1 1 100%; justify-content:space-between; gap:2px}
-    .star-slot{padding:3px 1px 2px; border-width:2px; border-radius:10px; flex:1 1 0; min-width:0}
-    .star-slot svg{width:36px; height:36px; max-width:100%}
+    .star-slot{padding:8px 2px 6px; border-width:2px; border-radius:12px; flex:1 1 0; min-width:0; min-height:68px}
+    .star-slot svg{width:38px; height:38px; max-width:100%}
     .star-slot .sd{font-size:13px}
     .star-slot .today-word{display:none}
     /* Stack: big day first, week list below it */
@@ -369,7 +373,7 @@
       <p class="stars-title">⭐ Skylar's Stars</p>
       <p class="stars-rule">A star for doing what you're asked — no whining, no arguing, no reminders again and again.</p>
     </div>
-    <div class="stars-row" id="starsRow" role="img" aria-label="Star chart: 0 of 5 stars earned this week"></div>
+    <div class="stars-row" id="starsRow" role="group" aria-label="Skylar's star chart — tap a star to fill it or tap again to unfill it"></div>
     <div class="stars-total">
       <p class="big" id="starsTotal">0 of 5 stars</p>
       <p class="goal">Goal: 5 stars this week</p>
@@ -526,12 +530,13 @@ var CAT_LABEL = { dojang:"🥋 Dojang", school:"🎒 School", appt:"📅 Appoint
 var CAT_ICON = { dojang:"🥋", school:"🎒", appt:"📅" };
 
 /* ===== Skylar's star chart — week of Sun Nov 15 – Sat Nov 21, 2026 =====
-   One slot per day, Sunday to Saturday. earned:true fills that day's
-   star gold. The week's goal is 5 stars. Stars are set when the page
-   is rebuilt after each night's check-in — flip a day to true here
-   and the filled star plus the "X of 5 stars" total update on their
-   own. This week starts at 0: no days earned yet. */
+   One slot per day, Sunday to Saturday. Tap a day's star to fill it
+   gold when Skylar earns it; tap again to unfill it if it was a
+   mistake. The "X of 5 stars" total updates right away. Tapped stars
+   are saved in localStorage so they stay filled after a reload or
+   Dakboard refresh, and loaded back on page load. */
 var STAR_GOAL = 5;
+var STAR_STORAGE_KEY = "skylar-stars-week-2026-11-15";
 var STAR_WEEK = [
   { short:"Sun", date:"November 15", earned:false },
   { short:"Mon", date:"November 16", earned:false },
@@ -547,6 +552,29 @@ function starSVG(earned){
     ? '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="'+STAR_PATH+'" fill="#f5a800" stroke="#a86e00" stroke-width="4" stroke-linejoin="round"/></svg>'
     : '<svg viewBox="0 0 100 100" aria-hidden="true"><path d="'+STAR_PATH+'" fill="#ffffff" stroke="#9db8cc" stroke-width="4" stroke-linejoin="round"/></svg>';
 }
+function loadSavedStars(){
+  try{
+    var raw = window.localStorage.getItem(STAR_STORAGE_KEY);
+    if(!raw) return;
+    var saved = JSON.parse(raw);
+    if(saved && typeof saved.length === "number" && saved.length === STAR_WEEK.length){
+      for(var i=0;i<STAR_WEEK.length;i++){ STAR_WEEK[i].earned = !!saved[i]; }
+    }
+  }catch(e){}
+}
+function saveStars(){
+  try{
+    var arr = [];
+    for(var i=0;i<STAR_WEEK.length;i++){ arr.push(!!STAR_WEEK[i].earned); }
+    window.localStorage.setItem(STAR_STORAGE_KEY, JSON.stringify(arr));
+  }catch(e){}
+}
+function toggleStar(idx){
+  if(idx < 0 || idx >= STAR_WEEK.length) return;
+  STAR_WEEK[idx].earned = !STAR_WEEK[idx].earned;
+  saveStars();
+  renderStars();
+}
 function renderStars(){
   var now = new Date();
   var html = "", count = 0;
@@ -554,14 +582,23 @@ function renderStars(){
     var s = STAR_WEEK[i];
     if(s.earned) count++;
     var parts = s.date.split(" ");
-    var isToday = (MONTHS[parts[0]] === now.getMonth() && parseInt(parts[1],10) === now.getDate());
-    html += '<div class="star-slot'+(isToday ? " is-today" : "")+'">'
+    var isToday = (typeof MONTHS !== "undefined" && MONTHS[parts[0]] === now.getMonth() && parseInt(parts[1],10) === now.getDate());
+    var dayLabel = s.short + " " + s.date;
+    var actionLabel = s.earned ? ("Star earned for " + dayLabel + ". Tap to remove it.") : ("No star yet for " + dayLabel + ". Tap to add a star.");
+    html += '<button type="button" class="star-slot'+(isToday ? " is-today" : "")+(s.earned ? " is-earned" : "")+'" data-star-index="'+i+'" aria-pressed="'+(s.earned ? "true" : "false")+'" aria-label="'+actionLabel+'" title="'+actionLabel+'">'
       + starSVG(s.earned)
-      + '<span class="sd">'+s.short+' <small>'+parts[1]+(isToday ? '<span class="today-word"> • Today</span>' : "")+'</small></span></div>';
+      + '<span class="sd">'+s.short+' <small>'+parts[1]+(isToday ? '<span class="today-word"> • Today</span>' : "")+'</small></span></button>';
   }
-  document.getElementById("starsRow").innerHTML = html;
-  document.getElementById("starsRow").setAttribute("aria-label", "Star chart: "+count+" of "+STAR_GOAL+" stars earned this week");
+  var row = document.getElementById("starsRow");
+  row.innerHTML = html;
+  row.setAttribute("aria-label", "Skylar's star chart: "+count+" of "+STAR_GOAL+" stars earned this week. Tap a star to fill it or tap again to unfill it.");
   document.getElementById("starsTotal").textContent = count + " of " + STAR_GOAL + " stars";
+  var btns = row.querySelectorAll(".star-slot");
+  for(var j=0;j<btns.length;j++){
+    btns[j].addEventListener("click", function(){
+      toggleStar(parseInt(this.getAttribute("data-star-index"), 10));
+    });
+  }
 }
 
 /* ===== "What do I wear?" outfit rule — one clear outfit per day,
@@ -743,7 +780,7 @@ document.addEventListener("keydown",function(e){
   if(e.key==="ArrowLeft" && p>0) selectDay(ORDER[p-1]);
   if(e.key==="ArrowRight" && p<ORDER.length-1) selectDay(ORDER[p+1]);
 });
-renderStars(); renderWeek(); selectDay(TODAY);
+loadSavedStars(); renderStars(); renderWeek(); selectDay(TODAY);
 </script>
 </body>
 </html>
