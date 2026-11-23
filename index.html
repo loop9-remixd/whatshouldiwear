@@ -357,12 +357,12 @@
   <header>
     <div class="title-block">
       <h1 id="page-title">My Weather This Week</h1>
-      <p class="where">Buffalo, New York — Mon Nov 16 to Thu Nov 26</p>
+      <p class="where">Buffalo, New York — Mon Nov 16 to Fri Nov 27</p>
     </div>
     <div class="facts" aria-label="Big facts for the week">
-      <div class="fact"><i aria-hidden="true">✓</i> Snow may fall on Thanksgiving</div>
-      <div class="fact"><i aria-hidden="true">✓</i> Maybe rain Sun night + Mon</div>
-      <div class="fact"><i aria-hidden="true">✓</i> Coat or jacket every day</div>
+      <div class="fact"><i aria-hidden="true">✓</i> Rain likely on Thanksgiving</div>
+      <div class="fact"><i aria-hidden="true">✓</i> Rain showers on Friday</div>
+      <div class="fact"><i aria-hidden="true">✓</i> Warm coat every day</div>
       <div class="fact"><i aria-hidden="true">✓</i> One day at a time</div>
     </div>
   </header>
@@ -385,8 +385,8 @@
     <section class="big-day" id="bigDay" aria-live="polite" aria-labelledby="bigDayName">
       <div class="big-top">
         <div>
-          <p class="day-name" id="bigDayName">Tuesday</p>
-          <p class="day-date" id="bigDayDate">November 17 • Buffalo, NY</p>
+          <p class="day-name" id="bigDayName">Monday</p>
+          <p class="day-date" id="bigDayDate">November 23 • Buffalo, NY</p>
         </div>
         <span class="tag" id="bigTag">TODAY</span>
       </div>
@@ -435,7 +435,7 @@
       <h2>The whole week</h2>
       <p class="hint">Tap a day to see it big — weather + what's on. Big number = daytime warmest.</p>
       <div class="week-list" id="weekList" role="group" aria-label="Choose a day"></div>
-      <p class="source">Forecast: National Weather Service (Buffalo) + Weather.com • Checked Sun, Nov 22, 2026 • What's on: family, school &amp; dojang calendars, Nov 16–26 • Stars: week of Mon Nov 23 – Fri Nov 27 • This page reloads itself every hour.</p>
+      <p class="source">Forecast: National Weather Service (Buffalo) • Checked Mon, Nov 23, 2026 • What's on: family, school &amp; dojang calendars, Nov 16–27 • Stars: week of Mon Nov 23 – Fri Nov 27 • This page reloads itself every hour.</p>
     </aside>
   </main>
 </div>
@@ -611,11 +611,10 @@ function renderStars(){
      jacket if the morning is cold).
    - SNOW that day: add boots to the outfit.
    - Rain that day: add the umbrella note.
-   This week (Nov 16–26) has no snow days, so no outfit lists
+   This week (Nov 16–27) has no snow days, so no outfit lists
    boots; add them the first day snow appears in the forecast.
-   Thanksgiving (Nov 26) now has rain and snow showers likely,
-   but that is mixed rain and snow, not a snow day,
-   so no outfit lists boots for it.
+   Thanksgiving (Nov 26) now has rain likely and no snow in
+   the forecast at all, so no outfit lists boots for it.
    The outfit also shows as labeled pictures under the words
    (see CLOTHING / outfitItemsFor): one picture per piece named
    in the words, plus one footwear picture — boots on a snow
@@ -628,18 +627,19 @@ var DAYS = [
   { day:"Friday", short:"Fri", date:"November 20", icon:"sunny", words:"Sunny", explain:"The sun is out most of the day.", high:58, low:38, feel:"Mild in the day, cool in the morning.", rain:"No rain.", rainIcon:"no", wear:"T-shirt or long shirt, pants, and a jacket.", wearIcon:"jacket", events:[{time:"Due today", name:"Dan belt private lessons due", type:"dojang", cls:"due"},{time:"4:15–5:15pm", name:"Private Lesson — Steve Chisum", type:"dojang"},{time:"5–6pm", name:"Private Lesson — Rahmat U", type:"dojang"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"}], note:"Private lessons at 4:15 and 5. Dan belt private lessons are due today. Skylar TKD at 6 o'clock.", tag:"" },
   { day:"Saturday", short:"Sat", date:"November 21", icon:"sunny", words:"Sunny", explain:"The sun is out most of the day. A warm, sunny day.", high:64, low:46, feel:"Warm and sunny.", rain:"No rain.", rainIcon:"no", wear:"T-shirt and shorts. Light jacket in the morning.", wearIcon:"jacket", events:[{time:"8:55–10:55am", name:"Tiger Instruction", type:"dojang"},{time:"11am–5pm", name:"Fall Fusion Tournament", type:"dojang"}], note:"Big dojang day! Tiger Instruction in the morning, then the Fall Fusion Tournament from 11 to 5.", tag:"" },
   { day:"Sunday", short:"Sun", date:"November 22", icon:"partly", words:"Partly sunny", explain:"Partly sunny. A little rain may fall after 1 in the morning.", high:65, low:43, feel:"Mild and partly sunny.", rain:"Maybe a little rain after 1am.", rainIcon:"maybe", wear:"T-shirt and shorts, with a jacket. Umbrella, just in case.", wearIcon:"umbrella", events:[{time:"9:45–11:45am", name:"Demo Team Practice", type:"dojang"},{time:"12:30–2pm", name:"Black Belt Test Practice #1 — Dillon helping", type:"dojang"}], note:"A little rain may come after 1 in the morning. Black Belt Test Practice at 12:30 — Dillon is helping.", tag:"WARMEST" },
-  { day:"Monday", short:"Mon", date:"November 23", icon:"cloudyRain", words:"Clouds + a little rain", explain:"Clouds cover the sky. A little rain may fall before 4 in the afternoon.", high:48, low:31, feel:"Colder. A little rain today.", rain:"Maybe a little rain.", rainIcon:"maybe", wear:"Long shirt, pants, warm coat, hat and mittens. Umbrella, just in case.", wearIcon:"umbrella", events:[{time:"4:15–5:15pm", name:"Private Lesson — Mr. Murray", type:"dojang"},{time:"5–6pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"6–7pm", name:"Private Lesson — Rahmat U", type:"dojang"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Private lesson at 4:15, Skylar TKD at 5 o'clock, then a private lesson at 6 and Black Belt TKD at 7. It is cold — bundle up!", tag:"" },
-  { day:"Tuesday", short:"Tue", date:"November 24", icon:"partly", words:"Mostly sunny", explain:"Mostly sunny. A bright day with a few clouds.", high:39, low:26, feel:"Very cold! The coldest day of all.", rain:"No rain.", rainIcon:"no", wear:"Long shirt, pants, warm coat, hat and mittens.", wearIcon:"coat", events:[{time:"All day", name:"Half Day — Conference Day", type:"school"},{time:"10–11am", name:"Appointment — SCM", type:"appt"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Half day of school today. Appointment — SCM at 10 in the morning. DELTA at 6, Black Belt TKD at 7. Brrr — dress warm!", tag:"" },
-  { day:"Wednesday", short:"Wed", date:"November 25", icon:"partly", words:"Mostly sunny", explain:"Mostly sunny. A bright day with a few clouds.", high:42, low:31, feel:"Cold and mostly sunny.", rain:"No rain.", rainIcon:"no", wear:"Long shirt, pants, warm coat, hat and mittens.", wearIcon:"coat", events:[{time:"All day", name:"No School — Conference Day", type:"school"},{time:"9:20am", name:"Parent Teacher Conference", type:"school"},{time:"11am–12pm", name:"Appointment — J", type:"appt"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"7–8pm", name:"TKD Instructor Class", type:"dojang"},{time:"8–9pm", name:"Black Belt TKD", type:"dojang"}], note:"No school today — conference day. Parent Teacher Conference in the morning. Appointment — J at 11. Skylar TKD at 6 o'clock, then Instructor Class and Black Belt TKD.", tag:"" },
-  { day:"Thursday", short:"Thu", date:"November 26", icon:"cloudyRain", words:"Rain and snow showers", explain:"Rain and snow showers are likely after 7 in the morning. Mostly cloudy.", high:43, low:35, feel:"Cold, with rain and snow.", rain:"Rain and snow showers are likely.", rainIcon:"maybe", wear:"Long shirt, pants, warm coat, hat and mittens. Umbrella too.", wearIcon:"umbrella", events:[], note:"Thanksgiving Day! No TKD today — the dojang is closed. Rain and snow showers are likely.", tag:"THANKSGIVING" }
+  { day:"Monday", short:"Mon", date:"November 23", icon:"partly", words:"Partly sunny", explain:"Partly sunny. The sun and clouds share the sky. A slight chance of rain showers.", high:48, low:30, feel:"Colder. Bundle up!", rain:"Maybe a little rain.", rainIcon:"maybe", wear:"Long shirt, pants, warm coat, hat and mittens. Umbrella, just in case.", wearIcon:"umbrella", events:[{time:"4:15–5:15pm", name:"Private Lesson — Mr. Murray", type:"dojang"},{time:"5–6pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"6–7pm", name:"Private Lesson — Rahmat U", type:"dojang"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Private lesson at 4:15, Skylar TKD at 5 o'clock, then a private lesson at 6 and Black Belt TKD at 7. It is cold — bundle up!", tag:"" },
+  { day:"Tuesday", short:"Tue", date:"November 24", icon:"partly", words:"Mostly sunny", explain:"Mostly sunny. The sun is out most of the day, with a few clouds.", high:39, low:25, feel:"Very cold! The coldest day of all.", rain:"No rain.", rainIcon:"no", wear:"Long shirt, pants, warm coat, hat and mittens.", wearIcon:"coat", events:[{time:"All day", name:"Half Day — Conference Day", type:"school"},{time:"10–11am", name:"Appointment — SCM", type:"appt"},{time:"6–7pm", name:"DELTA", type:"dojang"},{time:"7–8pm", name:"Black Belt TKD", type:"dojang"}], note:"Half day of school today. Appointment — SCM at 10 in the morning. DELTA at 6, Black Belt TKD at 7. Brrr — dress warm!", tag:"" },
+  { day:"Wednesday", short:"Wed", date:"November 25", icon:"partly", words:"Mostly sunny", explain:"Mostly sunny. The sun is out most of the day, with a few clouds.", high:44, low:31, feel:"Cold and mostly sunny.", rain:"No rain.", rainIcon:"no", wear:"Long shirt, pants, warm coat, hat and mittens.", wearIcon:"coat", events:[{time:"All day", name:"No School — Conference Day", type:"school"},{time:"9:20am", name:"Parent Teacher Conference", type:"school"},{time:"11am–12pm", name:"Appointment — J", type:"appt"},{time:"6–7pm", name:"Skylar TKD", type:"dojang", cls:"skylar"},{time:"7–8pm", name:"TKD Instructor Class", type:"dojang"},{time:"8–9pm", name:"Black Belt TKD", type:"dojang"}], note:"No school today — conference day. Parent Teacher Conference in the morning. Appointment — J at 11. Skylar TKD at 6 o'clock, then Instructor Class and Black Belt TKD.", tag:"" },
+  { day:"Thursday", short:"Thu", date:"November 26", icon:"cloudyRain", words:"Rain likely", explain:"Rain is likely after 7 in the morning. Cloudy all day. No snow today.", high:44, low:36, feel:"Cold, with rain.", rain:"Rain is likely.", rainIcon:"maybe", wear:"Long shirt, pants, warm coat, hat and mittens. Umbrella too.", wearIcon:"umbrella", events:[], note:"Thanksgiving Day! No TKD today — the dojang is closed. Rain is likely today.", tag:"THANKSGIVING" },
+  { day:"Friday", short:"Fri", date:"November 27", icon:"cloudyRain", words:"Rain showers", explain:"Rain showers. Cloudy all day.", high:44, low:37, feel:"Cold, with rain showers.", rain:"Rain showers.", rainIcon:"maybe", wear:"Long shirt, pants, warm coat, hat and mittens. Umbrella too.", wearIcon:"umbrella", events:[{time:"8:30–9:30am", name:"Appointment", type:"appt"}], note:"No school today. Appointment at 8:30 in the morning. No TKD today.", tag:"" }
 ];
 
 /* One day at a time — the page always shows exactly 5 days: today
    plus the next 4 days, in order. Days already past are left out of
    the list entirely. Worked out from the viewer's own date every
    time the page loads, so yesterday drops off by itself each morning
-   with no rebuild. The DAYS data runs past the end of the week so
-   the 5-day window is still full on Fri, Sat and Sun. */
+   with no rebuild. The DAYS data ends Fri Nov 27, the last day
+   of this page's window. */
 var MONTHS = { January:0, February:1, March:2, April:3, May:4, June:5, July:6, August:7, September:8, October:9, November:10, December:11 };
 function todayIndex(){
   var now = new Date();
@@ -671,10 +671,11 @@ var current = TODAY;
    Nov 23 E (Music) • Nov 24 F (P.E.) • Nov 25 Conference
    Day — no school, and the letter does not advance •
    Nov 26 Thanksgiving — planned holiday, no school, and the
-   letter does not advance. The next school day after this
-   page is Day A (Art). */
+   letter does not advance • Nov 27 No School — planned
+   closure, no school, and the letter does not advance.
+   The next school day after this page is Day A (Art). */
 var LETTER_ORDER = ["A","B","C","D","E","F"];
-var PLANNED_HOLIDAYS = { "November 25": true, "November 26": true }; /* Nov 25 Conference Day (no school), Nov 26 Thanksgiving */
+var PLANNED_HOLIDAYS = { "November 25": true, "November 26": true, "November 27": true }; /* Nov 25 Conference Day (no school), Nov 26 Thanksgiving, Nov 27 No School (planned closure) */
 var SNOW_DAYS = { }; /* none yet — add "Month D": true when one happens */
 function dayDateObj(dateStr){
   var p = dateStr.split(" ");
